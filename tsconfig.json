@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+      "forceConsistentCasingInFileNames": true,
+      "target": "esnext",
+      "module": "commonjs", 
+      "esModuleInterop": true,
+      "outDir": "./build",
+      "rootDir": "./src",
+      "moduleResolution": "Node",
+      "skipLibCheck": true,
+      "strict": true
+  }
+}
