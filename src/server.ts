@@ -2,34 +2,36 @@ import http from 'http';
 import express, { Express, json } from 'express';
 import morgan from 'morgan';
 import cors from "cors";
-import { userC } from './db/my_sql';
-import { Verify } from './models/User';
-
-
+import { userC } from "./db/Repository";
+import { Verify } from "./models/User";
 
 const router: Express = express();
 
-router.use(morgan('dev'));
+router.use(morgan("dev"));
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
-router.use(cors())
+router.use(cors());
 
-router.post("/registre", async (req : any, res : any) => {
-    try {
-        const user = await req.body.user;
+router.post("/registre", async (req: any, res: any) => {
+  try {
+    const user = await req.body.user;
+    Verify.verifyUserRegistre(user);
+    userC.addUser(user);
+    res.json({ user });
+  } catch (e) {
+    console.log(e);
+  }
+});
 
-        Verify.verifyUser(user)
-        userC.addUser(user)
-       
-       
-        res.json({user});
-     
-        
-    } catch (e)  {
-        console.log(e);
-        
-    }
-})
+router.get("/users", async (req, res): Promise<any> => {
+  try {
+    const users = await req.body;
+    console.log(users);
+    res.status(202).send("Succesfull");
+  } catch (e) {
+    res.status(400).send();
+  }
+});
 
 router.use((req, res, next) => {
     const error = new Error('not found');
