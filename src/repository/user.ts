@@ -14,17 +14,17 @@ class UserRepository {
   // }
 
   public async addUser(user: any) {
-    try {
-      if (!user) {
-        throw new Error("No user!");
-      }
-      execute(
-        "INSERT INTO users(first_name,last_name,email,phone,password) VALUES(?,?,?,?,?)",
-        [user.firstName, user.lastName, user.email, user.phone, user.password]
-      );
-    } catch (err: any) {
-      throw new Error("ErrAdd: ", err);
-    }
+    // try {
+    //   if (!user) {
+    //     throw new Error("No user!");
+    //   }
+    //   execute(
+    //     "INSERT INTO users(first_name,last_name,email,phone,password) VALUES(?,?,?,?,?)",
+    //     [user.firstName, user.lastName, user.email, user.phone, user.password]
+    //   );
+    // } catch (err: any) {
+    //   throw new Error("ErrAdd: ", err);
+    // }
   }
   public loginUser(user: any) {
     // console.log(user);
