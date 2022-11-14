@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-      "forceConsistentCasingInFileNames": true,
-      "target": "esnext",
-      "module": "commonjs", 
-      "esModuleInterop": true,
-      "outDir": "./build",
-      "rootDir": "./src",
-      "moduleResolution": "Node",
-      "skipLibCheck": true,
-      "strict": true
+    "forceConsistentCasingInFileNames": true,
+    "target": "es2016",
+    "module": "commonjs",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "outDir": "./build",
+    "rootDir": "./src",
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "strict": true
   }
 }

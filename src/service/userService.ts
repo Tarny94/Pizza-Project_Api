@@ -1,15 +1,14 @@
-import { userModel } from "../view/User";
-import { userRepository } from "../repository/user";
-import { userValidation } from "../model/validation";
+import { User } from "../interface/User";
+import { userRepository } from "../repository/UserRepository";
+import { userValidation } from "../validator/UserValidator";
 
-export class Service {
-  public static checkRegistreService(user: any) {
+export class UserService {
+  public static async registre(user: User) {
     try {
-      userValidation.validationFields(user);
-      userModel.checkRequireUserRegistre(user);
-      userRepository.addUser(user);
+      userValidation.validationRegistreFields(user);
+      await userRepository.addUser(user);
     } catch (err: any) {
-      throw new Error(err.message);
+      throw new Error(err);
     }
   }
 }

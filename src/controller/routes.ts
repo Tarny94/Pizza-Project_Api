@@ -2,7 +2,7 @@ import http from "http";
 import express, { Express, json, response } from "express";
 import morgan from "morgan";
 import cors from "cors";
-import { Service } from "../service/userService";
+import { UserService } from "../service/UserService";
 
 export const router: Express = express();
 
@@ -15,11 +15,10 @@ export const routes = () => {
   router.post("/registre", async (req: any, res: any) => {
     try {
       const user = req.body.user;
-      Service.checkRegistreService(user);
-      res.json({ user });
+      await UserService.registre(user);
+      console.log(res.json({ user }));
     } catch (e: any) {
-      console.log("ErrServ: ", e);
-      res.status(400).json({ error: "test", err: e.message });
+      res.status(400).json({ err: e.message });
     }
   });
 
