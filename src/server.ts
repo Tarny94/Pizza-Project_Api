@@ -1,9 +1,10 @@
 import http from 'http';
-import express, { Express, json } from 'express';
+import express, { Express, json, response } from 'express';
 import morgan from 'morgan';
 import cors from "cors";
-import { userC } from "./db/Repository";
-import { Verify } from "./models/User";
+import { userRepository } from "./controler/routes";
+import { userService } from './service/userService';
+import { init } from './config/database';
 
 const router: Express = express();
 
@@ -12,14 +13,17 @@ router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 router.use(cors());
 
+init();
 router.post("/registre", async (req: any, res: any) => {
   try {
-    const user = await req.body.user;
-    Verify.verifyUserRegistre(user);
-    userC.addUser(user);
+    const user = req.body.user;
+    userService.verifyUserRegistre(user);
+    await userRepository.addUser(user);
     res.json({ user });
-  } catch (e) {
-    console.log(e);
+  } catch (e : any) {
+    console.log("ErrServ: ",e);
+    res.status(400).json({error: "test", err : e.message});
+    
   }
 });
 
@@ -39,6 +43,8 @@ router.use((req, res, next) => {
         message: error.message
     });
 });
+
+//You dont need to have twice classes in the same component
 
 /** Server */
 const httpServer = http.createServer(router);

@@ -1,12 +1,31 @@
-const validator = require("validator")
+const validator = require("validator");
 
-class User {
+class UserService {
   public verifyUserRegistre(user: any) {
+    this.verifyFields(user);
     this.verifyEmail(user.email);
     this.verifyFirstName(user.firstName);
     this.verifyFirstName(user.lastName);
     this.verifyPassword(user.password);
     this.verifyPhone(user.phone);
+  }
+
+  public verifyFields(user: any) {
+    if (!user) {
+      throw Error("Complet the require fields");
+    }
+    if (!user.firstName) {
+      throw Error("First Name field is required");
+    }
+    if (!user.lastName) {
+      throw Error("Last Name field is required");
+    }
+    if (!user.email) {
+      throw Error("Email field is required");
+    }
+    if (!user.password) {
+      throw Error("Password field is required");
+    }
   }
 
   private verifyFirstName(firstName: String) {
@@ -40,4 +59,4 @@ class User {
   }
 }
 
-export const Verify = new User()
+export const userService = new UserService();

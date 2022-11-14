@@ -1,7 +1,6 @@
 {
   "name": "my-pizza-api",
   "version": "1.0.0",
- 
   "description": "",
   "main": "source/server.ts",
   "scripts": {
@@ -19,6 +18,7 @@
     "express": "^4.18.2",
     "morgan": "^1.10.0",
     "my-sql": "^1.2.15",
+    "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
@@ -26,6 +26,7 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.12"
+    "@types/cors": "^2.8.12",
+    "@types/mysql": "^2.15.21"
   }
 }
