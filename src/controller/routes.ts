@@ -1,5 +1,5 @@
 import http from "http";
-import express, { Express, json, response } from "express";
+import express, { Express, json, Request, Response, response } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { UserService } from "../service/UserService";
@@ -12,11 +12,10 @@ router.use(express.json());
 router.use(cors());
 
 export const routes = () => {
-  router.post("/registre", async (req: any, res: any) => {
+  router.post("/registre", async (req: Request, res: Response) => {
     try {
-      const user = req.body.user;
-      await UserService.registre(user);
-      console.log(res.json({ user }));
+      await UserService.registre(req.body.user);
+      console.log(res.json({ user: req.body.user }));
     } catch (e: any) {
       res.status(400).json({ err: e.message });
     }

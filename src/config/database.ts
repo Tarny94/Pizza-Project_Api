@@ -1,6 +1,5 @@
 import { DATA_SOURCES } from "./vars.config";
 import mysql from "mysql";
-import { json } from "stream/consumers";
 
 const dataConnect = DATA_SOURCES.mySqlDataSource;
 
@@ -12,14 +11,13 @@ export const init = async () => {
     await connection.connect();
     console.log("Connected to the MySQL server.");
   } catch (err: any) {
-    throw new Error(err.message);
+    throw new Error("Something went wrong");
   }
 };
 
 export const execute = async (query: String, user: String[]) => {
   try {
     await connection.query(query, user);
-    
   } catch (err: any) {
     throw new Error(err.json());
   }
