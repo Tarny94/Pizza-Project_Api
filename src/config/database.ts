@@ -18,12 +18,8 @@ export const init = async () => {
 
 export const execute = async (query: String, user: String[]) => {
   try {
-    await connection.query(query, user, function (error: any, response: any) {
-      if (error) {
-        throw new Error(error.message);
-      }
-      console.log(response);
-    });
+    await connection.query(query, user);
+    
   } catch (err: any) {
     throw new Error(err.json());
   }
