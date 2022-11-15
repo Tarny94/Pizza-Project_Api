@@ -1,7 +1,5 @@
 import { DATA_SOURCES } from "./vars.config";
 import mysql from "mysql";
-import { rejects } from "assert";
-import { resolve } from "path";
 
 const dataConnect = DATA_SOURCES.mySqlDataSource;
 

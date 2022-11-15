@@ -6,5 +6,3 @@ export const DATA_SOURCES = {
     database: process.env.MY_SQL_DB_DATABASE,
   },
 };
-
-console.log(process.env.MY_SQL_DB_HOST);
