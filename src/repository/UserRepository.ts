@@ -7,11 +7,11 @@ class UserRepository {
         throw new Error("No user!");
       }
      return await execute(
-       "INSERT INTO users(first_name,last_name,email,phone,password) VALUES(?,?,?,?,?)",
-       [user.firstName, user.lastName, user.email, user.phone, user.password]
+       "INSERT INTO users(name,addres,email,phone,password) VALUES(?,?,?,?,?)",
+       [user.fullName, user.addres, user.email, user.phone, user.password]
      );
     } catch (err: any) {
-      throw new Error("Something went wrong with Repository");
+      throw new Error(err.code);
     }
   }
 

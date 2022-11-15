@@ -15,9 +15,9 @@ export const routes = () => {
   router.post("/registre", async (req: Request, res: Response) => {
     try {
       await UserService.registre(req.body.user);
-      console.log(res.json({ user: req.body.user }));
+      res.json({ user: req.body.user })
     } catch (e: any) {
-      res.status(400).json({ err: e.message });
+      res.status(400).json({ error: e.message });
     }
   });
 
@@ -27,7 +27,7 @@ export const routes = () => {
       console.log(users);
       res.status(202).send("Succesfull");
     } catch (e) {
-      res.status(400).send();
+      res.status(400).send(e);
     }
   });
 

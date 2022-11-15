@@ -6,11 +6,11 @@ class UserValidation {
     if (!user) {
       throw Error("Complet the require fields");
     }
-    if (!user.firstName) {
-      throw Error("First Name field is required");
+    if (!user.fullName) {
+      throw Error("Full Name field is required");
     }
-    if (!user.lastName) {
-      throw Error("Last Name field is required");
+    if (!user.addres) {
+      throw Error("Addres field is required");
     }
     if (!user.email) {
       throw Error("Email field is required");
@@ -24,19 +24,19 @@ class UserValidation {
 
   public checkRequireUserRegistre(user: User) {
     this.verifyEmail(user);
-    this.verifyFirstName(user);
-    this.verifyFirstName(user);
+    this.verifyFullName(user);
     this.verifyPassword(user);
     this.verifyPhone(user);
   }
 
-  public verifyFirstName(user: User) {
-    if (/\d/.test("firstName")) {
-      throw Error("First name have to contain no numbers");
-    } else if (user.firstName.length < 3) {
-      throw new Error("First name it's too short");
+  public verifyFullName(user: User) {
+    if (/\d/.test(JSON.stringify(user.fullName))) {
+      throw Error("Full name have to contain no numbers");
+    } else if (user.fullName.length < 3) {
+      throw new Error("Full name is too short");
     }
   }
+
   public verifyEmail(user: User) {
     if (!validator.isEmail(user.email)) {
       throw Error("Wrong Email");
@@ -56,7 +56,7 @@ class UserValidation {
     //     throw Error("Password it's too short")
     //  }
     if (user.password.length < 6) {
-      throw Error("Password it's too short");
+      throw Error("Password is too short");
     }
   }
 }
