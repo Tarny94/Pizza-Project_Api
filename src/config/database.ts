@@ -1,5 +1,7 @@
 import { DATA_SOURCES } from "./vars.config";
 import mysql from "mysql";
+import { rejects } from "assert";
+import { resolve } from "path";
 
 const dataConnect = DATA_SOURCES.mySqlDataSource;
 
@@ -16,9 +18,13 @@ export const init = async () => {
 };
 
 export const execute = async (query: String, user: String[]) => {
-  try {
-    await connection.query(query, user);
-  } catch (err: any) {
-    throw new Error(err.json());
-  }
+  return new Promise((resolve: any, reject: any) => {
+    connection.query(query, user, function (error: any, result: any) {
+      console.log("EEEE", error, result);
+      if (error) {
+        reject(error);
+      }
+      resolve(result);
+    });
+  });
 };

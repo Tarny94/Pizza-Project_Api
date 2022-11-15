@@ -6,10 +6,10 @@ class UserRepository {
       if (!user) {
         throw new Error("No user!");
       }
-      await execute(
-        "INSERT INTO users(first_name,last_name,email,phone,password) VALUES(?,?,?,?,?)",
-        [user.firstName, user.lastName, user.email, user.phone, user.password]
-      );
+     return await execute(
+       "INSERT INTO users(first_name,last_name,email,phone,password) VALUES(?,?,?,?,?)",
+       [user.firstName, user.lastName, user.email, user.phone, user.password]
+     );
     } catch (err: any) {
       throw new Error("Something went wrong with Repository");
     }

@@ -6,7 +6,7 @@ export class UserService {
   public static async registre(user: User) {
     try {
       userValidation.validationRegistreFields(user);
-      await userRepository.addUser(user);
+     return await userRepository.addUser(user);
     } catch (err: any) {
       throw new Error(err);
     }
