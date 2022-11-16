@@ -12,7 +12,7 @@ router.use(express.json());
 router.use(cors());
 
 export const routes = () => {
-  router.post("/registre", async (req: Request, res: Response) => {
+  router.post("/register", async (req: Request, res: Response) => {
     try {
       await UserService.registre(req.body.user);
       res.json({ user: req.body.user });

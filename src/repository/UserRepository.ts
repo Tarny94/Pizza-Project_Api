@@ -11,10 +11,16 @@ class UserRepository {
         [user.fullName, user.addres, user.email, user.phone, user.password]
       );
     } catch (err: any) {
-      console.log(err);
-      throw new Error(err.code);
-    }
+     
+      if (err.code === "ER_DUP_ENTRY") {
+        throw new Error("Email is already used");
+      }
+      if (err.code === "ER_DATA_TOO_LONG") {
+        throw new Error("Data is too long");
+      }
+      throw new Error("Something went wrong");
   }
+}
 
   public async checkUser(user: any) {
     try {
@@ -23,7 +29,7 @@ class UserRepository {
       }
       return await execute("SELECT * FROM users WHERE email=?", [user.email]);
     } catch (err: any) {
-      throw new Error(err.code);
+      throw new Error("Something went wrong");
     }
     // console.log(user);
     // server.connection.query(
