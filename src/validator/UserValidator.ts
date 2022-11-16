@@ -2,12 +2,12 @@ import validator from "validator";
 import { User } from "../interface/User";
 
 class UserValidation {
-  public validationRegistreFields(user: User) {
+  public validationRegistre(user: User) {
     if (!user) {
       throw Error("Complet the require fields");
     }
     if (!user.fullName) {
-      throw Error("Full Name field is required");
+      throw new Error("Full Name field is required");
     }
     if (!user.addres) {
       throw Error("Addres field is required");
@@ -20,6 +20,17 @@ class UserValidation {
     }
 
     this.checkRequireUserRegistre(user);
+  }
+
+  public validationLogin(user: User) {
+    if (!user.email) {
+      throw Error("Email field is required");
+    }
+    if (!user.password) {
+      throw Error("Password field is required");
+    }
+    this.verifyEmail(user);
+    this.verifyPassword(user);
   }
 
   public checkRequireUserRegistre(user: User) {
@@ -56,7 +67,13 @@ class UserValidation {
     //     throw Error("Password it's too short")
     //  }
     if (user.password.length < 6) {
-      throw Error("Password is too short");
+      throw new Error("Password is too short");
+    }
+  }
+
+  public verifyMatchPassword(pass: String, passResponse: String) {
+    if (pass !== passResponse) {
+      throw new Error("Something went Wrong");
     }
   }
 }

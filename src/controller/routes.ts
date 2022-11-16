@@ -21,15 +21,17 @@ export const routes = () => {
     }
   });
 
-  router.get("/users", async (req, res): Promise<any> => {
+  router.post("/login", async (req, res) => {
     try {
-      const users = await req.body;
-      console.log(users);
-      res.status(202).send("Succesfull");
-    } catch (e) {
-      res.status(400).send(e);
+      await userService.login(req.body);
+      console.log(req.body);
+      res.json({ user: req.body });
+    } catch (err: any) {
+      console.log(err);
+      res.status(400).json({ error: err.message });
     }
   });
+  
 
   router.use((req, res, next) => {
     const error = new Error("not found");
