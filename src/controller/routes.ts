@@ -15,7 +15,7 @@ export const routes = () => {
   router.post("/register", async (req: Request, res: Response) => {
     try {
       await UserService.registre(req);
-      res.json({ user: req });
+      res.send(req.body);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
