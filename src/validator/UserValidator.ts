@@ -7,16 +7,16 @@ class UserValidation {
       throw Error("Complet the require fields");
     }
     if (!user.fullName) {
-      throw new Error("Full Name field is required");
+      throw new Error("Full name is required");
     }
     if (!user.addres) {
-      throw Error("Addres field is required");
+      throw Error("Addres is required");
     }
     if (!user.email) {
-      throw Error("Email field is required");
+      throw Error("Email is required");
     }
     if (!user.password) {
-      throw Error("Password field is required");
+      throw Error("Password is required");
     }
 
     this.checkRequireUserRegistre(user);
@@ -24,10 +24,10 @@ class UserValidation {
 
   public validationLogin(user: User) {
     if (!user.email) {
-      throw Error("Email field is required");
+      throw Error("Email is required");
     }
     if (!user.password) {
-      throw Error("Password field is required");
+      throw Error("Password is required");
     }
     this.verifyEmail(user);
     this.verifyPassword(user);
@@ -43,9 +43,7 @@ class UserValidation {
   public verifyFullName(user: User) {
     if (/\d/.test(JSON.stringify(user.fullName))) {
       throw Error("Full name have to contain no numbers");
-    } else if (user.fullName.length < 3) {
-      throw new Error("Full name is too short");
-    }
+    } 
   }
 
   public verifyEmail(user: User) {

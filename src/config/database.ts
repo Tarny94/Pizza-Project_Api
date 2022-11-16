@@ -15,9 +15,9 @@ export const init = async () => {
   }
 };
 
-export const execute = async (query: string, param: string[]) => {
+export const execute = async (query: string, values: string[]) => {
   return new Promise((resolve: any, reject: any) => {
-    connection.query(query, param, function (error: any, result: any) {
+    connection.query(query, values, function (error: any, result: any) {
       if (error) {
         reject(error);
       }
