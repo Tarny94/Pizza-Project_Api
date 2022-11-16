@@ -3,7 +3,7 @@ import { routes, httpServer } from "./controller/routes";
 import { init } from "./config/database";
 import { DATA_SOURCES } from "./config/vars.config";
 
-console.log(DATA_SOURCES.mySqlDataSource);
+
 init();
 routes();
 

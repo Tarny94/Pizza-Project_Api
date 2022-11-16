@@ -6,33 +6,31 @@ class UserRepository {
       if (!user) {
         throw new Error("No user!");
       }
-     return await execute(
-       "INSERT INTO users(first_name,last_name,email,phone,password) VALUES(?,?,?,?,?)",
-       [user.firstName, user.lastName, user.email, user.phone, user.password]
-     );
+      return await execute(
+        "INSERT INTO users(name,address,email,phone,password) VALUES(?,?,?,?,?)",
+        [user.fullName, user.address, user.email, user.phone, user.password]
+      );
     } catch (err: any) {
-      throw new Error("Something went wrong with Repository");
+      console.log("err: ", err.code);
+      if (err.code === "ER_DUP_ENTRY") {
+        throw new Error("Email is already used");
+      }
+      if (err.code === "ER_DATA_TOO_LONG") {
+        throw new Error("Data is too long");
+      }
+      throw new Error("Something went wrong");
     }
-  }
+}
 
-  public loginUser(user: any) {
-    // console.log(user);
-    // server.connection.query(
-    //   "SELECT * FROM users WHERE email = ?",
-    //   [user.email],
-    //   function (error, response) {}
-    // );
-    // public readAll() {
-    //   const server = new Server();
-    //   server.connection.query(
-    //     "SELECT * FROM users",
-    //     function (error, result, fields) {
-    //       if (error) {
-    //         return console.error("error", error.message);
-    //       }
-    //     }
-    //   );
-    // }
+  public async checkUser(user: any) {
+    try {
+      if (!user) {
+        throw new Error("No user!");
+      }
+      return await execute("SELECT * FROM users WHERE email=?", [user.email]);
+    } catch (err: any) {
+      throw new Error("Something went wrong");
+    }
   }
 }
 
