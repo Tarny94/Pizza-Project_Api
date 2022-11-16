@@ -65,6 +65,9 @@ class UserValidation {
     if (user.password.length < 6) {
       throw new Error("Password is too short");
     }
+    if (user.password.toLowerCase() === "password") {
+      throw new Error("'Password' won't work as a password");
+    }
   }
 
   public async verifyMatchPassword(pass: string, passResponse: string) {

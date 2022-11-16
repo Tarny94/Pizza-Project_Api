@@ -7,8 +7,8 @@ export class UserService {
   public static async registre(data: any) {
     try {
       const user = data.body;
-      user.password = await bcrypt.hash(user.password, 8);
       userValidation.validationRegistre(user);
+      user.password = await bcrypt.hash(user.password, 8);
       return await userRepository.addUser(user);
     } catch (err: any) {
       throw new Error(err.message);
