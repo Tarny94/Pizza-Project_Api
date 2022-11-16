@@ -24,7 +24,7 @@ export const routes = () => {
   router.post("/login", async (req, res) => {
     try {
       await UserService.login(req);
-      res.json({ user: req });
+      res.json(req.body);
     } catch (err: any) {
       res.status(400).json({ error: err.message });
     }
