@@ -27,7 +27,7 @@ export class UserService {
       );
       return user;
     } catch (error: any) {
-      throw new Error(error.message);
+      throw new Error("Something wend wrong");
     }
   }
 }
