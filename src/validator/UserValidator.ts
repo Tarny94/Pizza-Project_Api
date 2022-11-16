@@ -3,11 +3,11 @@ import { User } from "../interface/User";
 
 class UserValidation {
   public validationRegistre(user: User) {
-    if (!user) {
-      throw Error("Complet the require fields");
+    if (!user.fullName && !user.address && !user.email && !user.password) {
+      throw Error("Complete the required fields *");
     }
     if (!user.fullName) {
-      throw new Error("Full name is required");
+      throw new Error("Name is required");
     }
     if (!user.address) {
       throw Error("Address is required");
@@ -42,7 +42,7 @@ class UserValidation {
 
   public verifyFullName(user: User) {
     if (/\d/.test(JSON.stringify(user.fullName))) {
-      throw Error("Full name have to contain no numbers");
+      throw Error("Name have to contain no numbers");
     } 
   }
 
