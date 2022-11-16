@@ -9,8 +9,8 @@ class UserValidation {
     if (!user.fullName) {
       throw new Error("Full name is required");
     }
-    if (!user.addres) {
-      throw Error("Addres is required");
+    if (!user.address) {
+      throw Error("Address is required");
     }
     if (!user.email) {
       throw Error("Email is required");

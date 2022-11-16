@@ -14,8 +14,8 @@ router.use(cors());
 export const routes = () => {
   router.post("/register", async (req: Request, res: Response) => {
     try {
-      await UserService.registre(req.body.user);
-      res.json({ user: req.body.user });
+      await UserService.registre(req);
+      res.json({ user: req });
     } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
@@ -23,8 +23,8 @@ export const routes = () => {
 
   router.post("/login", async (req, res) => {
     try {
-      await UserService.login(req.body);
-      res.json({ user: req.body });
+      await UserService.login(req);
+      res.json({ user: req });
     } catch (err: any) {
       res.status(400).json({ error: err.message });
     }

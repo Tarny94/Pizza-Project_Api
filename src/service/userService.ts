@@ -3,8 +3,9 @@ import { userRepository } from "../repository/UserRepository";
 import { userValidation } from "../validator/UserValidator";
 
 export class UserService {
-  public static async registre(user: User) {
+  public static async registre(data: any) {
     try {
+      const user = data.body;
       userValidation.validationRegistre(user);
       return await userRepository.addUser(user);
     } catch (err: any) {
@@ -12,8 +13,9 @@ export class UserService {
     }
   }
 
-  public static async login(user: User) {
+  public static async login(data: any) {
     try {
+      const user = data.body;
       userValidation.validationLogin(user);
       const userResponse: any = await userRepository.checkUser(user);
       userValidation.verifyMatchPassword(
