@@ -72,10 +72,11 @@ class UserValidation {
 
   public async verifyMatchPassword(pass: string, passResponse: string) {
     const match = await bcrypt.compare(pass, passResponse);
-    console.log(" match: ", match);
+   
     if (!match) {
       throw new Error("Something went Wrong");
     }
+    return match;
   }
 }
 
