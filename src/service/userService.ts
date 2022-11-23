@@ -3,9 +3,7 @@ import { userRepository } from "../repository/UserRepository";
 import { userValidation } from "../validator/UserValidator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { response } from "express";
-import { DATA_SOURCES, DATA_KEYS } from "../config/vars.config";
-import { idText } from "typescript";
+import { DATA_KEYS } from "../config/vars.config";
 
 export class UserService {
   public static async registre(data: any) {
@@ -32,7 +30,6 @@ export class UserService {
         userResponse[0].password
       );
       user.password = await bcrypt.hash(user.password, 8);
-      console.log(private_key);
       if (isMatch) {
         const token = jwt.sign(
           {
@@ -42,7 +39,7 @@ export class UserService {
           private_key,
           { expiresIn: "40 seconds" }
         );
-        console.log("token", token);
+
         return {
           user: {
             _id: userResponse[0].user_id,
@@ -51,16 +48,10 @@ export class UserService {
           },
         };
       } else {
-        throw new Error("Password is not correct");
+        throw new Error("Inccorect credentials");
       }
     } catch (error: any) {
-      if (
-        error.message ===
-        "Cannot read properties of undefined (reading 'password')"
-      ) {
-        throw new Error("Incorrect email or password.");
-      }
-      throw new Error(error.message);
+      throw new Error("Inccorect credentials");
     }
   }
 }

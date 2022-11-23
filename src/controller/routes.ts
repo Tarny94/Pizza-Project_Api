@@ -12,10 +12,10 @@ router.use(express.json());
 router.use(cors());
 
 export const routes = () => {
-  router.post("/register", async (req: Request, res: Response) => {
+  router.post("/register", async (req, res) => {
     try {
       await UserService.registre(req);
-      res.json(req.body);
+      res.sendStatus(200);
     } catch (e: any) {
       res.status(400).json({ error: e.message });
     }

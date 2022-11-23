@@ -74,7 +74,7 @@ class UserValidation {
     const match = await bcrypt.compare(pass, passResponse);
    
     if (!match) {
-      throw new Error("Something went Wrong");
+      throw new Error();
     }
     return match;
   }

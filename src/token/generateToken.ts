@@ -3,4 +3,4 @@ import jwt from "jsonwebtoken";
 
 const privateKey = DATA_KEYS.myDataKeys;
 
-console.log("as");
+
