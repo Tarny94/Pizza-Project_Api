@@ -1,6 +1,7 @@
 import validator from "validator";
 import { User } from "../interface/User";
 
+
 class UserValidation {
   public validationRegistre(user: User) {
     if (!user.fullName && !user.address && !user.email && !user.password) {
