@@ -34,7 +34,7 @@ export const routes = () => {
   router.post("/admin/add", async (req, res) => {
     try {
       await ProductService.addProduct(req.body);
-      res.status(200).send(req.body);
+      res.status(200).send();
     } catch (e: any) {
       throw new Error("Something went wrong");
     }
