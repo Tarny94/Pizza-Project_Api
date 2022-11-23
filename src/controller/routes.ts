@@ -3,6 +3,7 @@ import express, { Express, json, Request, Response, response } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { UserService } from "../service/UserService";
+import { ProductService } from "../service/ProductService";
 
 export const router: Express = express();
 
@@ -27,6 +28,15 @@ export const routes = () => {
       res.json({ user: req });
     } catch (err: any) {
       res.status(400).json({ error: err.message });
+    }
+  });
+
+  router.post("/admin/add", async (req, res) => {
+    try {
+      await ProductService.addProduct(req.body);
+      res.status(200).send();
+    } catch (e: any) {
+      throw new Error("Something went wrong");
     }
   });
 
