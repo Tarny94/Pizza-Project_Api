@@ -45,7 +45,7 @@ export const routes = () => {
   router.get("/admin/get", async (req, res) => {
     try {
       const products = await productRpository.getAllProducts();
-      console.log(products);
+
       res.send(products);
     } catch (err: any) {
       throw new Error("Something went wrong");
