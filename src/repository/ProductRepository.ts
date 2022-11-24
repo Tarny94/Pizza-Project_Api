@@ -1,3 +1,4 @@
+import { exec } from "child_process";
 import { execute } from "../config/database";
 import { Product } from "../interface/Product";
 
@@ -37,6 +38,17 @@ class ProductRepository {
         []
       );
     } catch (err) {
+      throw new Error("Something went wrong with server");
+    }
+  }
+
+  public async updateProduct(product: Product) {
+    try {
+      return await execute(
+        `UPDATE pizza_model SET image=${product.image},title=${product.title}, description=${product.description}, price=${product.price}, discount=${product.discount}`,
+        []
+      );
+    } catch (e) {
       throw new Error("Something went wrong with server");
     }
   }

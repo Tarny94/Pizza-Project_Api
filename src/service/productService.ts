@@ -10,4 +10,12 @@ export class ProductService {
       throw new Error(err.message);
     }
   }
+
+  public static async updateProduct(data: Product) {
+    try {
+      return await productRpository.updateProduct(data);
+    } catch (err: any) {
+      throw new Error(err.message);
+    }
+  }
 }

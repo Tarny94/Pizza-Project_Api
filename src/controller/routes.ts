@@ -53,9 +53,16 @@ export const routes = () => {
 
   router.post("/admin/delete", async (req, res) => {
     try {
-      const result = await productRpository.deleteProduct(req.body);
-      console.log(result);
+      await productRpository.deleteProduct(req.body);
       res.status(204);
+    } catch (e: any) {
+      res.status(400).send({ error: e.message });
+    }
+  });
+
+  router.patch("/admin/update", async (req, res) => {
+    try {
+      await ProductService.updateProduct(req.body);
     } catch (e: any) {
       res.status(400).send({ error: e.message });
     }
