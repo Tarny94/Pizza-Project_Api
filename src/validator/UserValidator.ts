@@ -1,5 +1,6 @@
 import validator from "validator";
 import { User } from "../interface/User";
+import bcrypt from "bcrypt";
 
 
 class UserValidation {
@@ -44,7 +45,7 @@ class UserValidation {
   public verifyFullName(user: User) {
     if (/\d/.test(JSON.stringify(user.fullName))) {
       throw Error("Name have to contain no numbers");
-    } 
+    }
   }
 
   public verifyEmail(user: User) {
@@ -62,18 +63,21 @@ class UserValidation {
   }
 
   public verifyPassword(user: User) {
-    // if(validator.isStrongPassword(password, {minLength: 6})){
-    //     throw Error("Password it's too short")
-    //  }
     if (user.password.length < 6) {
       throw new Error("Password is too short");
     }
+    if (user.password.toLowerCase() === "password") {
+      throw new Error("'Password' won't work as a password");
+    }
   }
 
-  public verifyMatchPassword(pass: String, passResponse: String) {
-    if (pass !== passResponse) {
-      throw new Error("Something went Wrong");
+  public async verifyMatchPassword(pass: string, passResponse: string) {
+    const match = await bcrypt.compare(pass, passResponse);
+   
+    if (!match) {
+      throw new Error();
     }
+    return match;
   }
 }
 
