@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cors from "cors";
 import { UserService } from "../service/UserService";
 import { ProductService } from "../service/ProductService";
+import { productRpository } from "../repository/ProductRepository";
 
 export const router: Express = express();
 
@@ -37,6 +38,16 @@ export const routes = () => {
       await ProductService.addProduct(req.body);
       res.status(200).send();
     } catch (e: any) {
+      throw new Error("Something went wrong");
+    }
+  });
+
+  router.get("/admin/get", async (req, res) => {
+    try {
+      const products = await productRpository.getAllProducts();
+
+      res.send(products);
+    } catch (err: any) {
       throw new Error("Something went wrong");
     }
   });

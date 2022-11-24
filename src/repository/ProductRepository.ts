@@ -18,7 +18,15 @@ class ProductRepository {
         ]
       );
     } catch (e) {
-      throw new Error("Something went warong with server");
+      throw new Error("Something went wrong with server");
+    }
+  }
+
+  public async getAllProducts() {
+    try {
+      return await execute("SELECT * FROM pizza_model", []);
+    } catch (e) {
+      throw new Error("Something went wrong with server");
     }
   }
 }
