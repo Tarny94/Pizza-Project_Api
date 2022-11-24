@@ -26,7 +26,6 @@ export const routes = () => {
   router.post("/login", async (req, res) => {
     try {
       const user = await UserService.login(req);
-
       res.json(user);
     } catch (err: any) {
       res.status(400).json({ error: err.message });
@@ -38,7 +37,7 @@ export const routes = () => {
       await ProductService.addProduct(req.body);
       res.status(200).send();
     } catch (e: any) {
-      throw new Error("Something went wrong");
+      res.status(400).json();
     }
   });
 
@@ -48,7 +47,17 @@ export const routes = () => {
 
       res.send(products);
     } catch (err: any) {
-      throw new Error("Something went wrong");
+      res.status(400).json();
+    }
+  });
+
+  router.post("/admin/delete", async (req, res) => {
+    try {
+      const result = await productRpository.deleteProduct(req.body);
+      console.log(result);
+      res.status(204);
+    } catch (e: any) {
+      res.status(400).send({ error: e.message });
     }
   });
 

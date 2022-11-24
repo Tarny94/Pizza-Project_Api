@@ -29,6 +29,17 @@ class ProductRepository {
       throw new Error("Something went wrong with server");
     }
   }
+
+  public async deleteProduct(product_id: Product) {
+    try {
+      return await execute(
+        `DELETE FROM pizza_model WHERE pizza_id=${product_id.id}`,
+        []
+      );
+    } catch (err) {
+      throw new Error("Something went wrong with server");
+    }
+  }
 }
 
 export const productRpository = new ProductRepository();
