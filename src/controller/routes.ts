@@ -51,10 +51,10 @@ export const routes = () => {
     }
   });
 
-  router.post("/admin/delete", async (req, res) => {
+  router.delete("/admin/delete:id", async (req, res) => {
     try {
-      await productRpository.deleteProduct(req.body);
-      res.status(204);
+      await productRpository.deleteProduct(req.params.id);
+      res.status(204).send();
     } catch (e: any) {
       res.status(400).send({ error: e.message });
     }
@@ -62,9 +62,11 @@ export const routes = () => {
 
   router.patch("/admin/update", async (req, res) => {
     try {
-      await ProductService.updateProduct(req.body);
+      console.log(req.body);
+      const response = await ProductService.updateProduct(req.body);
+      res.status(200).json(response);
     } catch (e: any) {
-      res.status(400).send({ error: e.message });
+      res.status(400).json({ error: e.message });
     }
   });
 

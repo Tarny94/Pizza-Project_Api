@@ -31,12 +31,11 @@ class ProductRepository {
     }
   }
 
-  public async deleteProduct(product_id: Product) {
+  public async deleteProduct(product_id: any) {
     try {
-      return await execute(
-        `DELETE FROM pizza_model WHERE pizza_id=${product_id.id}`,
-        []
-      );
+      return await execute(`DELETE FROM pizza_model WHERE pizza_id=?`, [
+        product_id,
+      ]);
     } catch (err) {
       throw new Error("Something went wrong with server");
     }
@@ -45,8 +44,15 @@ class ProductRepository {
   public async updateProduct(product: Product) {
     try {
       return await execute(
-        `UPDATE pizza_model SET image=${product.image},title=${product.title}, description=${product.description}, price=${product.price}, discount=${product.discount}`,
-        []
+        `UPDATE pizza_model SET image=?,title=?, description=?, price=?, discount=? WHERE pizza_id=?`,
+        [
+          product.updateImage,
+          product.updateTitle,
+          product.updateDescription,
+          product.updatePrice,
+          product.updateDiscount,
+          product.pizza_id,
+        ]
       );
     } catch (e) {
       throw new Error("Something went wrong with server");
