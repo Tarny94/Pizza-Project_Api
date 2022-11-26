@@ -21,8 +21,8 @@ export class UserService {
     try {
       const user = data.body;
       const private_key: any = DATA_KEYS.myDataKeys.privateKey;
-      await userValidation.validationLogin(user);
 
+      await userValidation.validationLogin(user);
       const userResponse: any = await userRepository.checkUser(user);
 
       const isMatch: any = await userValidation.verifyMatchPassword(

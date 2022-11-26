@@ -69,6 +69,15 @@ export const routes = () => {
     }
   });
 
+  router.get("/admin/login:id", async (req, res) => {
+    try {
+      await ProductService.loginAdmin(req.params.id);
+      res.status(200).json();
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
   router.use((req, res, next) => {
     const error = new Error("not found");
     return res.status(404).json({

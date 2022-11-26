@@ -15,3 +15,4 @@ export const DATA_KEYS = {
   },
 };
 
+export const ADMIN_KEY = process.env.MY_ADMIN_KEY;
