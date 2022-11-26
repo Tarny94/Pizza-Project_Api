@@ -62,7 +62,6 @@ export const routes = () => {
 
   router.patch("/admin/update", async (req, res) => {
     try {
-      console.log(req.body);
       const response = await ProductService.updateProduct(req.body);
       res.status(200).json(response);
     } catch (e: any) {
