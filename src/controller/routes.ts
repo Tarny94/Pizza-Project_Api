@@ -51,6 +51,15 @@ export const routes = () => {
     }
   });
 
+  router.get("/admin/get:id", async (req, res) => {
+    try {
+      const product = await productRpository.getProduct(req.params.id);
+      res.status(200).send(product);
+    } catch (e: any) {
+      res.status(400).json();
+    }
+  });
+
   router.delete("/admin/delete:id", async (req, res) => {
     try {
       await productRpository.deleteProduct(req.params.id);

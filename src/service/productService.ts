@@ -20,6 +20,14 @@ export class ProductService {
     }
   }
 
+  public static async getProduct(data: Product) {
+    try {
+      return await productRpository.getProduct(data.pizza_id);
+    } catch (err: any) {
+      throw new Error(err.message);
+    }
+  }
+
   public static async loginAdmin(code: string) {
     try {
       const admin_code = ADMIN_KEY;

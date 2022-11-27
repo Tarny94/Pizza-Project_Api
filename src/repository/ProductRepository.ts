@@ -23,6 +23,16 @@ class ProductRepository {
     }
   }
 
+  public async getProduct(pizza_id: any) {
+    try {
+      return await execute("SELECT * FROM pizza_model WHERE pizza_id=? ", [
+        pizza_id,
+      ]);
+    } catch (e) {
+      throw new Error("Something went wrong with server");
+    }
+  }
+
   public async getAllProducts() {
     try {
       return await execute("SELECT * FROM pizza_model", []);
