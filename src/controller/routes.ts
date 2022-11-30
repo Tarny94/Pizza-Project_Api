@@ -4,7 +4,7 @@ import morgan from "morgan";
 import cors from "cors";
 import { UserService } from "../service/UserService";
 import { ProductService } from "../service/ProductService";
-import { productRpository } from "../repository/ProductRepository";
+import { ProductRepository } from "../repository/ProductRepository";
 
 export const router: Express = express();
 
@@ -43,8 +43,7 @@ export const routes = () => {
 
   router.get("/admin/get", async (req, res) => {
     try {
-      const products = await productRpository.getAllProducts();
-
+      const products = await ProductService.getAllProducts();
       res.send(products);
     } catch (err: any) {
       res.status(400).json();
@@ -53,16 +52,16 @@ export const routes = () => {
 
   router.get("/admin/get:id", async (req, res) => {
     try {
-      const product = await productRpository.getProduct(req.params.id);
+      const product = await ProductRepository.getProduct(req.params.id);
       res.status(200).send(product);
     } catch (e: any) {
       res.status(400).json();
     }
   });
 
-  router.delete("/admin/delete:id", async (req, res) => {
+  router.delete("/admin/delete/:id", async (req, res) => {
     try {
-      await productRpository.deleteProduct(req.params.id);
+      await ProductService.deleteProduct(req);
       res.status(204).send();
     } catch (e: any) {
       res.status(400).send({ error: e.message });
@@ -78,9 +77,9 @@ export const routes = () => {
     }
   });
 
-  router.get("/admin/login:id", async (req, res) => {
+  router.get("/admin/login/:id", async (req, res) => {
     try {
-      await ProductService.loginAdmin(req.params.id);
+      await UserService.loginAdmin(req.params.id);
       res.status(200).json();
     } catch (e: any) {
       res.status(400).json({ error: e.message });

@@ -1,7 +1,7 @@
 import { execute } from "../config/database";
 
-class UserRepository {
-  public async addUser(user: any) {
+export class UserRepository {
+  public static async addUser(user: any) {
     try {
       if (!user) {
         throw new Error("No user!");
@@ -20,9 +20,9 @@ class UserRepository {
       }
       throw new Error("Something went wrong");
     }
-}
+  }
 
-  public async checkUser(user: any) {
+  public static async checkUser(user: any) {
     try {
       if (!user) {
         throw new Error("No user!");
@@ -34,4 +34,3 @@ class UserRepository {
   }
 }
 
-export const userRepository = new UserRepository();

@@ -3,7 +3,7 @@ import { User } from "../interface/User";
 import bcrypt from "bcrypt";
 
 
-class UserValidation {
+export class UserValidation {
   public validationRegistre(user: User) {
     if (!user.fullName && !user.address && !user.email && !user.password) {
       throw Error("Complete the required fields *");
@@ -73,7 +73,7 @@ class UserValidation {
 
   public async verifyMatchPassword(pass: string, passResponse: string) {
     const match = await bcrypt.compare(pass, passResponse);
-   
+
     if (!match) {
       throw new Error();
     }

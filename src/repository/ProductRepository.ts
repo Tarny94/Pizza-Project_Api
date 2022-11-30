@@ -1,9 +1,8 @@
-import { exec } from "child_process";
 import { execute } from "../config/database";
 import { Product } from "../interface/Product";
 
-class ProductRepository {
-  public async addProduct(product: Product) {
+export class ProductRepository {
+  public static async addProduct(product: Product) {
     try {
       if (!product) {
         throw new Error("No Product!");
@@ -23,7 +22,7 @@ class ProductRepository {
     }
   }
 
-  public async getProduct(pizza_id: any) {
+  public static async getProduct(pizza_id: any) {
     try {
       return await execute("SELECT * FROM pizza_model WHERE pizza_id=? ", [
         pizza_id,
@@ -33,7 +32,7 @@ class ProductRepository {
     }
   }
 
-  public async getAllProducts() {
+  public static async getAllProducts() {
     try {
       return await execute("SELECT * FROM pizza_model", []);
     } catch (e) {
@@ -41,7 +40,7 @@ class ProductRepository {
     }
   }
 
-  public async deleteProduct(product_id: any) {
+  public static async deleteProduct(product_id: any) {
     try {
       return await execute(`DELETE FROM pizza_model WHERE pizza_id=?`, [
         product_id,
@@ -51,7 +50,7 @@ class ProductRepository {
     }
   }
 
-  public async updateProduct(product: Product) {
+  public static async updateProduct(product: Product) {
     try {
       return await execute(
         `UPDATE pizza_model SET image=?,title=?, description=?, price=?, discount=? WHERE pizza_id=?`,
@@ -69,5 +68,3 @@ class ProductRepository {
     }
   }
 }
-
-export const productRpository = new ProductRepository();

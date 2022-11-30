@@ -1,5 +1,5 @@
 import { User } from "../interface/User";
-import { userRepository } from "../repository/UserRepository";
+import { UserRepository } from "../repository/UserRepository";
 import { userValidation } from "../validator/UserValidator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -11,7 +11,7 @@ export class UserService {
       const user = data.body;
       userValidation.validationRegistre(user);
       user.password = await bcrypt.hash(user.password, 8);
-      return await userRepository.addUser(user);
+      return await UserRepository.addUser(user);
     } catch (err: any) {
       throw new Error(err.message);
     }
@@ -23,7 +23,7 @@ export class UserService {
       const private_key: any = DATA_KEYS.myDataKeys.privateKey;
 
       await userValidation.validationLogin(user);
-      const userResponse: any = await userRepository.checkUser(user);
+      const userResponse: any = await UserRepository.checkUser(user);
 
       const isMatch: any = await userValidation.verifyMatchPassword(
         user.password,
@@ -52,6 +52,18 @@ export class UserService {
       }
     } catch (error: any) {
       throw new Error("Inccorect credentials");
+    }
+  }
+
+  public static async loginAdmin(code: string) {
+    try {
+      // const admin_code = ADMIN_KEY;
+      // return productValidation.validationLoginAdminCode(
+      //   JSON.stringify(code),
+      //   JSON.stringify(admin_code)
+      // );
+    } catch (err: any) {
+      throw new Error(err.message);
     }
   }
 }

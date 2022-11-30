@@ -1,12 +1,12 @@
-import { productValidation } from "../validator/ProductValidator";
-import { productRpository } from "../repository/ProductRepository";
+import { ProductValidator } from "../validator/ProductValidator";
+import { ProductRepository } from "../repository/ProductRepository";
 import { Product } from "../interface/Product";
 import { ADMIN_KEY } from "../config/vars.config";
 
 export class ProductService {
   public static async addProduct(data: Product) {
     try {
-      return await productRpository.addProduct(data);
+      return await ProductRepository.addProduct(data);
     } catch (err: any) {
       throw new Error(err.message);
     }
@@ -14,7 +14,7 @@ export class ProductService {
 
   public static async updateProduct(data: Product) {
     try {
-      return await productRpository.updateProduct(data);
+      return await ProductRepository.updateProduct(data);
     } catch (err: any) {
       throw new Error(err.message);
     }
@@ -22,19 +22,23 @@ export class ProductService {
 
   public static async getProduct(data: Product) {
     try {
-      return await productRpository.getProduct(data.pizza_id);
+      return await ProductRepository.getProduct(data.pizza_id);
     } catch (err: any) {
       throw new Error(err.message);
     }
   }
 
-  public static async loginAdmin(code: string) {
+  public static async getAllProducts() {
     try {
-      const admin_code = ADMIN_KEY;
-      return productValidation.validationLoginAdminCode(
-        JSON.stringify(code),
-        JSON.stringify(admin_code)
-      );
+      return ProductRepository.getAllProducts();
+    } catch (err: any) {
+      throw new Error(err.message);
+    }
+  }
+
+  public static async deleteProduct(req: any) {
+    try {
+      return ProductRepository.deleteProduct(req.params.id);
     } catch (err: any) {
       throw new Error(err.message);
     }
