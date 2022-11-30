@@ -56,11 +56,11 @@ class ProductRepository {
       return await execute(
         `UPDATE pizza_model SET image=?,title=?, description=?, price=?, discount=? WHERE pizza_id=?`,
         [
-          product.updateImage,
-          product.updateTitle,
-          product.updateDescription,
-          product.updatePrice,
-          product.updateDiscount,
+          product.image,
+          product.title,
+          product.description,
+          product.price,
+          product.discount,
           product.pizza_id,
         ]
       );

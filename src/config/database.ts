@@ -21,7 +21,6 @@ export const execute = async (query: string, values: string[]) => {
       if (error) {
         reject(error);
       }
-
       resolve(result);
     });
   });
