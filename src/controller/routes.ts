@@ -33,51 +33,6 @@ export const routes = () => {
     }
   });
 
-  router.post("/admin/add", async (req, res) => {
-    try {
-      await ProductService.addProduct(req.body);
-      res.status(200).send();
-    } catch (e: any) {
-      res.status(400).json();
-    }
-  });
-
-  router.get("/admin/get", async (req, res) => {
-    try {
-      const products = await ProductService.getAllProducts();
-      res.send(products);
-    } catch (err: any) {
-      res.status(400).json();
-    }
-  });
-
-  router.get("/admin/get:id", async (req, res) => {
-    try {
-      const product = await ProductRepository.getProduct(req.params.id);
-      res.status(200).send(product);
-    } catch (e: any) {
-      res.status(400).json();
-    }
-  });
-
-  router.delete("/admin/delete/:id", async (req, res) => {
-    try {
-      await ProductService.deleteProduct(req);
-      res.status(204).send();
-    } catch (e: any) {
-      res.status(400).send({ error: e.message });
-    }
-  });
-
-  router.patch("/admin/update", async (req, res) => {
-    try {
-      const response = await ProductService.updateProduct(req.body);
-      res.status(200).json(response);
-    } catch (e: any) {
-      res.status(400).json({ error: e.message });
-    }
-  });
-
   router.post("/admin/login/page", async (req: Request, res: Response) => {
     try {
       await UserService.loginAdminPage(req);
@@ -95,6 +50,53 @@ export const routes = () => {
       res.status(400).json({ error: e.message });
     }
   });
+
+  router.post("/admin/addProduct", async (req, res) => {
+    try {
+      await ProductService.addProduct(req.body);
+      res.status(200).send();
+    } catch (e: any) {
+      res.status(400).json();
+    }
+  });
+
+  router.get("/admin/getProducts", async (req, res) => {
+    try {
+      const products = await ProductService.getAllProducts();
+      res.send(products);
+    } catch (err: any) {
+      res.status(400).json();
+    }
+  });
+
+  router.get("/admin/getProduct/:id", async (req, res) => {
+    try {
+      const product = await ProductRepository.getProduct(req.params.id);
+      res.status(200).send(product);
+    } catch (e: any) {
+      res.status(400).json();
+    }
+  });
+
+  router.delete("/admin/delete/:id", async (req, res) => {
+    try {
+      await ProductService.deleteProduct(req);
+      res.status(204).send();
+    } catch (e: any) {
+      res.status(400).send({ error: e.message });
+    }
+  });
+
+  router.patch("/admin/update/product", async (req, res) => {
+    try {
+      const response = await ProductService.updateProduct(req.body);
+      res.status(200).json(response);
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+
 
   router.use((req, res, next) => {
     const error = new Error("not found");
