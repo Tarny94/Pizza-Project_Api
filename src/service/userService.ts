@@ -1,9 +1,11 @@
 import { User } from "../interface/User";
 import { UserRepository } from "../repository/UserRepository";
-import { userValidation } from "../validator/UserValidator";
+import { UserValidation, userValidation } from "../validator/UserValidator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { DATA_KEYS } from "../config/vars.config";
+import express, { Express, Request, Response } from "express";
+import { AdminAuth } from "../middleware/AdminAuth";
 
 export class UserService {
   public static async registre(data: any) {
@@ -36,8 +38,7 @@ export class UserService {
             _id: userResponse[0].user_id?.toString(),
             named: userResponse[0].name,
           },
-          private_key,
-          { expiresIn: "40 seconds" }
+          private_key
         );
 
         return {
@@ -55,13 +56,38 @@ export class UserService {
     }
   }
 
-  public static async loginAdmin(code: string) {
+  public static async loginAdminPage(data: Request) {
     try {
-      // const admin_code = ADMIN_KEY;
-      // return productValidation.validationLoginAdminCode(
-      //   JSON.stringify(code),
-      //   JSON.stringify(admin_code)
-      // );
+      const token: string = data.body.token;
+      if (!token) {
+        throw new Error("Invalid action");
+      }
+      const user: any = AdminAuth(token);
+      if (!user) {
+        throw new Error("Invalid token");
+      }
+      const validAdmin: any = await UserRepository.getAdminId(user._id);
+      if (validAdmin[0].user_id.toString() !== user._id) {
+        throw new Error("Invalid user");
+      }
+    } catch (err: any) {
+      throw new Error(err.message);
+    }
+  }
+
+  public static async loginAdmin(data: Request) {
+    try {
+      const user: any = data.body;
+      if (!user) {
+        throw new Error("Invalid token");
+      }
+
+      const validPassword: any = await UserRepository.getAdminPassword(user.id);
+
+      await userValidation.verifyMatchPassword(
+        user.code,
+        validPassword[0].password
+      );
     } catch (err: any) {
       throw new Error(err.message);
     }

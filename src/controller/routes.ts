@@ -6,6 +6,7 @@ import { UserService } from "../service/UserService";
 import { ProductService } from "../service/ProductService";
 import { ProductRepository } from "../repository/ProductRepository";
 
+
 export const router: Express = express();
 
 router.use(morgan("dev"));
@@ -77,9 +78,18 @@ export const routes = () => {
     }
   });
 
-  router.get("/admin/login/:id", async (req, res) => {
+  router.post("/admin/login/page", async (req: Request, res: Response) => {
     try {
-      await UserService.loginAdmin(req.params.id);
+      await UserService.loginAdminPage(req);
+      res.status(200).json();
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
+    }
+  });
+
+  router.post("/admin/login", async (req: Request, res: Response) => {
+    try {
+      await UserService.loginAdmin(req);
       res.status(200).json();
     } catch (e: any) {
       res.status(400).json({ error: e.message });

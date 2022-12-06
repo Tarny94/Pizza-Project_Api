@@ -11,7 +11,6 @@ export class UserRepository {
         [user.fullName, user.address, user.email, user.phone, user.password]
       );
     } catch (err: any) {
-      console.log("err: ", err.code);
       if (err.code === "ER_DUP_ENTRY") {
         throw new Error("Email is already used");
       }
@@ -30,6 +29,22 @@ export class UserRepository {
       return await execute("SELECT * FROM users WHERE email=?", [user.email]);
     } catch (err: any) {
       throw new Error("Something went wrong");
+    }
+  }
+
+  public static async getAdminId(id: string) {
+    try {
+      return await execute("SELECT user_id FROM admin WHERE user_id=?", [id]);
+    } catch (e) {
+      throw new Error("Invalid User");
+    }
+  }
+
+  public static async getAdminPassword(id: string) {
+    try {
+      return await execute("SELECT password FROM admin WHERE user_id=?", [id]);
+    } catch (e) {
+      throw new Error("Invalid User");
     }
   }
 }
