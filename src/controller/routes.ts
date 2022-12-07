@@ -1,11 +1,10 @@
 import http from "http";
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import { UserService } from "../service/UserService";
 import { ProductService } from "../service/ProductService";
 import { ProductRepository } from "../repository/ProductRepository";
-
 
 export const router: Express = express();
 
@@ -15,7 +14,7 @@ router.use(express.json());
 router.use(cors());
 
 export const routes = () => {
-  router.post("/register", async (req, res) => {
+  router.post("/register", async (req: Request, res: Response) => {
     try {
       await UserService.registre(req);
       res.sendStatus(200);
@@ -24,10 +23,9 @@ export const routes = () => {
     }
   });
 
-  router.post("/login", async (req, res) => {
+  router.post("/login", async (req: Request, res: Response) => {
     try {
-      const user = await UserService.login(req);
-      res.json(user);
+      res.status(200).json(await UserService.login(req));
     } catch (err: any) {
       res.status(400).json({ error: err.message });
     }
@@ -51,7 +49,7 @@ export const routes = () => {
     }
   });
 
-  router.post("/admin/addProduct", async (req: Request, res) => {
+  router.post("/admin/addProduct", async (req: Request, res: Response) => {
     try {
       await ProductService.addProduct(req);
       res.status(200).send();
@@ -60,25 +58,23 @@ export const routes = () => {
     }
   });
 
-  router.get("/admin/getProducts", async (req, res) => {
+  router.get("/admin/getProducts", async (req: Request, res: Response) => {
     try {
-      const products = await ProductService.getAllProducts();
-      res.send(products);
+      res.status(200).send(await ProductService.getAllProducts());
     } catch (err: any) {
       res.status(400).json();
     }
   });
 
-  router.get("/admin/getProduct/:id", async (req, res) => {
+  router.get("/admin/getProduct/:id", async (req: Request, res: Response) => {
     try {
-      const product = await ProductRepository.getProduct(req.params.id);
-      res.status(200).send(product);
+      res.status(200).send(await ProductRepository.getProduct(req.params.id));
     } catch (e: any) {
       res.status(400).json();
     }
   });
 
-  router.delete("/admin/delete/:id", async (req, res) => {
+  router.delete("/admin/delete/:id", async (req: Request, res: Response) => {
     try {
       await ProductService.deleteProduct(req);
       res.status(204).send();
@@ -87,19 +83,16 @@ export const routes = () => {
     }
   });
 
-  router.patch("/admin/update/product", async (req, res) => {
+  router.patch("/admin/update/product", async (req: Request, res: Response) => {
     try {
-      const response = await ProductService.updateProduct(req.body);
-      res.status(200).json(response);
+      res.status(200).json(await ProductService.updateProduct(req.body));
     } catch (e: any) {
       res.status(400).json({ error: e.message });
     }
   });
 
-
-
-  router.use((req, res, next) => {
-    const error = new Error("not found");
+  router.use((req: Request, res: Response, next: NextFunction) => {
+    const error: any = new Error("not found");
     return res.status(404).json({
       message: error.message,
     });
