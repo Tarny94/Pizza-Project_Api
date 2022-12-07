@@ -1,8 +1,8 @@
 import { execute } from "../config/database";
 import { Product } from "../interface/Product";
 
-class ProductRepository {
-  public async addProduct(product: Product) {
+export class ProductRepository {
+  public static async addProduct(product: Product) {
     try {
       if (!product) {
         throw new Error("No Product!");
@@ -22,13 +22,49 @@ class ProductRepository {
     }
   }
 
-  public async getAllProducts() {
+  public static async getProduct(pizza_id: any) {
+    try {
+      return await execute("SELECT * FROM pizza_model WHERE pizza_id=? ", [
+        pizza_id,
+      ]);
+    } catch (e) {
+      throw new Error("Something went wrong with server");
+    }
+  }
+
+  public static async getAllProducts() {
     try {
       return await execute("SELECT * FROM pizza_model", []);
     } catch (e) {
       throw new Error("Something went wrong with server");
     }
   }
-}
 
-export const productRpository = new ProductRepository();
+  public static async deleteProduct(product_id: any) {
+    try {
+      return await execute(`DELETE FROM pizza_model WHERE pizza_id=?`, [
+        product_id,
+      ]);
+    } catch (err) {
+      throw new Error("Something went wrong with server");
+    }
+  }
+
+  public static async updateProduct(product: Product) {
+    try {
+      return await execute(
+        `UPDATE pizza_model SET image=?,title=?, description=?, price=?, discount=? WHERE pizza_id=?`,
+        [
+          product.image,
+          product.title,
+          product.description,
+          product.price,
+          product.discount,
+          product.pizza_id,
+        ]
+      );
+    } catch (e) {
+      throw new Error("Something went wrong with server");
+    }
+  }
+}
