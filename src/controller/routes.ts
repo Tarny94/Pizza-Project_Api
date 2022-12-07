@@ -51,9 +51,9 @@ export const routes = () => {
     }
   });
 
-  router.post("/admin/addProduct", async (req, res) => {
+  router.post("/admin/addProduct", async (req: Request, res) => {
     try {
-      await ProductService.addProduct(req.body);
+      await ProductService.addProduct(req);
       res.status(200).send();
     } catch (e: any) {
       res.status(400).json();

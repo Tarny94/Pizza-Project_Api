@@ -1,12 +1,13 @@
 import { ProductValidator } from "../validator/ProductValidator";
 import { ProductRepository } from "../repository/ProductRepository";
 import { Product } from "../interface/Product";
-import { ADMIN_KEY } from "../config/vars.config";
+import { Request } from "express";
 
 export class ProductService {
-  public static async addProduct(data: Product) {
+  public static async addProduct(data: Request) {
     try {
-      return await ProductRepository.addProduct(data);
+      const product: Product = data.body;
+      return await ProductRepository.addProduct(product);
     } catch (err: any) {
       throw new Error(err.message);
     }
@@ -36,7 +37,7 @@ export class ProductService {
     }
   }
 
-  public static async deleteProduct(req: any) {
+  public static async deleteProduct(req: Request) {
     try {
       return ProductRepository.deleteProduct(req.params.id);
     } catch (err: any) {
