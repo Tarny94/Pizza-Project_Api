@@ -49,7 +49,7 @@ export const routes = () => {
     }
   });
 
-  router.post("/admin/addProduct", async (req: Request, res: Response) => {
+  router.post("/add/product", async (req: Request, res: Response) => {
     try {
       await ProductService.addProduct(req.body);
       res.status(200).send();
@@ -58,7 +58,7 @@ export const routes = () => {
     }
   });
 
-  router.get("/admin/getProducts", async (req: Request, res: Response) => {
+  router.get("/get/products", async (req: Request, res: Response) => {
     try {
       res.status(200).send(await ProductService.getAllProducts());
     } catch (err: any) {
@@ -66,7 +66,7 @@ export const routes = () => {
     }
   });
 
-  router.get("/admin/getProduct/:id", async (req: Request, res: Response) => {
+  router.get("/get/product/:id", async (req: Request, res: Response) => {
     try {
       res.status(200).send(await ProductRepository.getProduct(req.params.id));
     } catch (e: any) {
@@ -74,7 +74,7 @@ export const routes = () => {
     }
   });
 
-  router.delete("/admin/delete/:id", async (req: Request, res: Response) => {
+  router.delete("/delete/product/:id", async (req: Request, res: Response) => {
     try {
       await ProductService.deleteProduct(req);
       res.status(204).send();
@@ -83,7 +83,7 @@ export const routes = () => {
     }
   });
 
-  router.patch("/admin/updateProduct", async (req: Request, res: Response) => {
+  router.patch("/update/product", async (req: Request, res: Response) => {
     try {
       res.status(200).json(await ProductService.updateProduct(req.body));
     } catch (e: any) {
