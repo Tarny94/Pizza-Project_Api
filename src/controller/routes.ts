@@ -23,6 +23,14 @@ export const routes = () => {
     }
   });
 
+  router.get("/", async (req: Request, res: Response) => {
+    try {
+      res.status(200).json({ message: "You are live" });
+    } catch (err: any) {
+      res.status(400).json({ message: "Fail" });
+    }
+  });
+
   router.post("/login", async (req: Request, res: Response) => {
     try {
       res.status(200).json(await UserService.login(req));
