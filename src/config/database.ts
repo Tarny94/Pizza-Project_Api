@@ -1,7 +1,8 @@
 import { DATA_SOURCES } from "./vars.config";
 import mysql from "mysql";
 
-const dataConnect = DATA_SOURCES.mySqlDataSource;
+const dataConnect : any = process.env.ENV === "dev" ? DATA_SOURCES.mySqlDataSource : process.env.CLEARDB_DATABASE_URL;
+//mysql://bcf8d875f18856:8766ddc5@eu-cdbr-west-03.cleardb.net/heroku_948f76739b1fe35?reconnect=true
 
 let connection: any;
 
