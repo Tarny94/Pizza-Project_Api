@@ -2,8 +2,8 @@ import http from "http";
 import express, { Express, Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import cors from "cors";
-import { UserService } from "../service/UserService";
-import { ProductService } from "../service/ProductService";
+import { UserService } from "../service/userService";
+import { ProductService } from "../service/productService";
 import { ProductRepository } from "../repository/ProductRepository";
 
 export const router: Express = express();
@@ -27,7 +27,7 @@ export const routes = () => {
     try {
       res.status(200).json({ message: "You are live" });
     } catch (err: any) {
-      res.status(400).json({ message: "Fail" });
+      res.status(500).json({ message: "Fail" });
     }
   });
 
