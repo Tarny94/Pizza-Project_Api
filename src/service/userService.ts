@@ -1,16 +1,17 @@
 import { User } from "../interface/User";
 import { UserRepository } from "../repository/UserRepository";
-import { UserValidation, userValidation } from "../validator/UserValidator";
+import { userValidation } from "../validator/UserValidator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { DATA_KEYS } from "../config/vars.config";
-import express, { Express, Request, Response } from "express";
+import { Request } from "express";
 import { AdminAuth } from "../middleware/AdminAuth";
 
 export class UserService {
-  public static async registre(data: any) {
+  public static async registre(data: Request) {
     try {
-      const user = data.body;
+      const user: User = data.body;
+      console.log("User: ", user);
       userValidation.validationRegistre(user);
       user.password = await bcrypt.hash(user.password, 8);
       return await UserRepository.addUser(user);
@@ -19,14 +20,16 @@ export class UserService {
     }
   }
 
-  public static async login(data: any) {
+  public static async login(data: Request) {
     try {
-      const user = data.body;
-      const private_key: any = DATA_KEYS.myDataKeys.privateKey;
+      const user: User = data.body;
+      const private_key: string = DATA_KEYS.myDataKeys.privateKey
+        ? DATA_KEYS.myDataKeys.privateKey
+        : "";
 
-      await userValidation.validationLogin(user);
+      userValidation.validationLogin(user);
+
       const userResponse: any = await UserRepository.checkUser(user);
-
       const isMatch: any = await userValidation.verifyMatchPassword(
         user.password,
         userResponse[0].password
@@ -51,8 +54,8 @@ export class UserService {
       } else {
         throw new Error("Inccorect credentials");
       }
-    } catch (error: any) {
-      throw new Error("Inccorect credentials");
+    } catch (err: any) {
+      throw new Error(err.message);
     }
   }
 
@@ -77,7 +80,7 @@ export class UserService {
 
   public static async loginAdmin(data: Request) {
     try {
-      const user: any = data.body;
+      const user: User = data.body;
       if (!user) {
         throw new Error("Invalid token");
       }
