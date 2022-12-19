@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { DATA_KEYS } from "../config/vars.config";
 import { Request } from "express";
-import { AdminAuth } from "../middleware/AdminAuth";
+
 
 export class UserService {
   public static async registre(data: Request) {
@@ -53,25 +53,6 @@ export class UserService {
         };
       } else {
         throw new Error("Inccorect credentials");
-      }
-    } catch (err: any) {
-      throw new Error(err.message);
-    }
-  }
-
-  public static async loginAdminPage(data: Request) {
-    try {
-      const token: string = data.body.token;
-      if (!token) {
-        throw new Error("Invalid action");
-      }
-      const user: any = AdminAuth(token);
-      if (!user) {
-        throw new Error("Invalid token");
-      }
-      const validAdmin: any = await UserRepository.getAdminId(user._id);
-      if (validAdmin[0].user_id.toString() !== user._id) {
-        throw new Error("Invalid user");
       }
     } catch (err: any) {
       throw new Error(err.message);

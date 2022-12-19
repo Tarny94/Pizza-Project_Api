@@ -5,6 +5,7 @@ import cors from "cors";
 import { UserService } from "../service/userService";
 import { ProductService } from "../service/productService";
 import { ProductRepository } from "../repository/ProductRepository";
+import { AdminAuth } from "../middleware/AuthAdmin";
 
 export const router: Express = express();
 
@@ -39,14 +40,17 @@ export const routes = () => {
     }
   });
 
-  router.post("/admin/login/page", async (req: Request, res: Response) => {
-    try {
-      await UserService.loginAdminPage(req);
-      res.status(200).json();
-    } catch (e: any) {
-      res.status(400).json({ error: e.message });
+  router.post(
+    "/admin/login/page",
+    AdminAuth,
+    async (req: Request, res: Response) => {
+      try {
+        res.status(200).json();
+      } catch (e: any) {
+        res.status(400).json({ error: e.message });
+      }
     }
-  });
+  );
 
   router.post("/admin/login", async (req: Request, res: Response) => {
     try {
