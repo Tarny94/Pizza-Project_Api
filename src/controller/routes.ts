@@ -78,11 +78,16 @@ export const routes = () => {
     }
   });
 
-  router.get("/get/user/:id", async (req: Request, res: Response) => {
+  router.get("/user/:id", async (req: Request, res: Response) => {
     try {
-      res.status(200).send(await UserService.getUser(req.params.id));
+      const user: any = await UserService.getUser(req.params.id);
+
+      if (!user) {
+        throw Error("Something went wrong");
+      }
+      res.status(200).send(user);
     } catch (err: any) {
-      res.status(400).json();
+      res.status(404).json();
     }
   });
 
