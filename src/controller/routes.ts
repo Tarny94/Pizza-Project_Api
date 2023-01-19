@@ -78,6 +78,14 @@ export const routes = () => {
     }
   });
 
+  router.get("/get/user/:id", async (req: Request, res: Response) => {
+    try {
+      res.status(200).send(await UserService.getUser(req.params.id));
+    } catch (err: any) {
+      res.status(400).json();
+    }
+  });
+
   router.get("/get/product/:id", async (req: Request, res: Response) => {
     try {
       res.status(200).send(await ProductRepository.getProduct(req.params.id));
@@ -110,5 +118,7 @@ export const routes = () => {
     });
   });
 };
+
+  
 
 export const httpServer = http.createServer(router);

@@ -21,6 +21,17 @@ export class UserRepository {
     }
   }
 
+  public static async getUser(id: string) {
+    try {
+      return await execute(
+        "SELECT user_id,name,address,email,phone FROM users WHERE user_id=?",
+        [id]
+      );
+    } catch (err: any) {
+      throw new Error("Something went wrong");
+    }
+  }
+
   public static async checkUser(user: any) {
     try {
       if (!user) {

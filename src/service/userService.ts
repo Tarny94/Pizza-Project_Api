@@ -59,6 +59,12 @@ export class UserService {
     }
   }
 
+  public static async getUser(id: string) {
+    try {
+      return await UserRepository.getUser(id);
+    } catch (err: any) {}
+  }
+
   public static async loginAdmin(data: Request) {
     try {
       const user: User = data.body;
