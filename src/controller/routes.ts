@@ -6,6 +6,7 @@ import { UserService } from "../service/userService";
 import { ProductService } from "../service/productService";
 import { ProductRepository } from "../repository/ProductRepository";
 import { AdminAuth } from "../middleware/AuthAdmin";
+import { OrderService } from "../service/OrderService";
 
 export const router: Express = express();
 
@@ -70,6 +71,25 @@ export const routes = () => {
     }
   });
 
+  router.post("/add/order", async (req: Request, res: Response) => {
+    try {
+      console.log("route:", req.body);
+      await OrderService.addOrder(req);
+      res.status(200).send();
+    } catch (e: any) {
+      res.status(400).json();
+    }
+  });
+
+  router.post("/add/address", async (req: Request, res: Response) => {
+    try {
+      await OrderService.addAddress(req);
+      res.status(200).send();
+    } catch (e: any) {
+      res.status(400).json();
+    }
+  });
+
   router.get("/get/products", async (req: Request, res: Response) => {
     try {
       res.status(200).send(await ProductService.getAllProducts());
@@ -78,14 +98,19 @@ export const routes = () => {
     }
   });
 
+  router.get("/get/address/:id", async (req: Request, res: Response) => {
+    try {
+      const data: any = await OrderService.getAddress(req);
+      res.status(200).send(data);
+    } catch (e: any) {
+      res.status(400).json();
+    }
+  });
+
   router.get("/user/:id", async (req: Request, res: Response) => {
     try {
       const user: any = await UserService.getUser(req.params.id);
-
-      if (!user) {
-        throw Error("Something went wrong");
-      }
-      res.status(200).send(user);
+      res.status(200).send(user && user);
     } catch (err: any) {
       res.status(404).json();
     }
@@ -102,6 +127,15 @@ export const routes = () => {
   router.delete("/delete/product/:id", async (req: Request, res: Response) => {
     try {
       await ProductService.deleteProduct(req);
+      res.status(204).send();
+    } catch (e: any) {
+      res.status(400).send({ error: e.message });
+    }
+  });
+
+  router.delete("/delete/address/:id", async (req: Request, res: Response) => {
+    try {
+      await OrderService.deleteAddress(req);
       res.status(204).send();
     } catch (e: any) {
       res.status(400).send({ error: e.message });
