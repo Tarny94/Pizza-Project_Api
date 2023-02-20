@@ -5,23 +5,28 @@ import { Address } from "../interface/Address";
 
 export class OrderService {
   public static async getAddress(req: Request) {
+    
     return await OrderRepository.getAddress(req.params.id);
+  }
+
+  public static async getAddressById(req: Request) {
+    
+    return await OrderRepository.getAddressById(req.params.id);
   }
 
   public static async addOrder(req: Request) {
     const order: Order = req.body;
-    const productsContains: any = req.body.productsContains;
+    const productsContains: any = req.body.productsID;
 
-    await OrderRepository.addOrder(order);
+    await OrderRepository.addOrder(order, req.params.id);
 
     const data: any = await OrderRepository.getLastOrderID();
     const orderId: string = data[0].id;
-    console.log("orderID:", orderId);
+   
     if (!orderId) {
       throw new Error("Something went wrong with order_id");
     }
     productsContains.map(async (item: any) => {
-      console.log("id", item);
       return await OrderRepository.addOrderProducts(
         orderId,
         item.productId,
@@ -30,8 +35,10 @@ export class OrderService {
     });
   }
 
+
   public static async addAddress(req: Request) {
-    return await OrderRepository.addAddress(req.body);
+  
+    return await OrderRepository.addAddress(req.body, req.params.id);
   }
 
   public static async deleteAddress(req: Request) {
