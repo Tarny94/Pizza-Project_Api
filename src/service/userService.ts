@@ -11,7 +11,6 @@ export class UserService {
   public static async registre(data: Request) {
     try {
       const user: User = data.body;
-      console.log("User: ", user);
       userValidation.validationRegistre(user);
       user.password = await bcrypt.hash(user.password, 8);
       return await UserRepository.addUser(user);
@@ -55,7 +54,7 @@ export class UserService {
         throw new Error("Inccorect credentials");
       }
     } catch (err: any) {
-      throw new Error(err.message);
+      throw new Error("Inccorect credentials");
     }
   }
 

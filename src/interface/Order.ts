@@ -2,13 +2,11 @@ export interface Order {
   userId: string;
   productsID: string;
   totalCost: string;
-  addresId: string;
-  data: string;
-  time: string;
+  addressID: string;
   tips: string;
-  comment: string;
-  wrappingCost: string;
+  comments: string;
+  wrapping: string;
   deliveryCost: string;
   tableware: string;
-  productsPrice: string;
+  productsCost: string;
 }

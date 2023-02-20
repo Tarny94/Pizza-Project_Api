@@ -6,6 +6,7 @@ import { UserService } from "../service/userService";
 import { ProductService } from "../service/productService";
 import { ProductRepository } from "../repository/ProductRepository";
 import { AdminAuth } from "../middleware/AuthAdmin";
+import { Auth } from "../middleware/Auth";
 import { OrderService } from "../service/OrderService";
 
 export const router: Express = express();
@@ -71,9 +72,8 @@ export const routes = () => {
     }
   });
 
-  router.post("/add/order", async (req: Request, res: Response) => {
+  router.post("/add/order", Auth, async (req: Request, res: Response) => {
     try {
-      console.log("route:", req.body);
       await OrderService.addOrder(req);
       res.status(200).send();
     } catch (e: any) {
@@ -81,7 +81,7 @@ export const routes = () => {
     }
   });
 
-  router.post("/add/address", async (req: Request, res: Response) => {
+  router.post("/add/address", Auth, async (req: Request, res: Response) => {
     try {
       await OrderService.addAddress(req);
       res.status(200).send();
@@ -98,9 +98,18 @@ export const routes = () => {
     }
   });
 
-  router.get("/get/address/:id", async (req: Request, res: Response) => {
+  router.get("/get/address", Auth, async (req: Request, res: Response) => {
     try {
       const data: any = await OrderService.getAddress(req);
+      res.status(200).send(data);
+    } catch (e: any) {
+      res.status(400).json();
+    }
+  });
+
+  router.get("/get/addres/:id", async (req: Request, res: Response) => {
+    try {
+      const data: any = await OrderService.getAddressById(req);
       res.status(200).send(data);
     } catch (e: any) {
       res.status(400).json();
@@ -124,31 +133,43 @@ export const routes = () => {
     }
   });
 
-  router.delete("/delete/product/:id", async (req: Request, res: Response) => {
-    try {
-      await ProductService.deleteProduct(req);
-      res.status(204).send();
-    } catch (e: any) {
-      res.status(400).send({ error: e.message });
+  router.delete(
+    "/delete/product/:id",
+    AdminAuth,
+    async (req: Request, res: Response) => {
+      try {
+        await ProductService.deleteProduct(req);
+        res.status(204).send();
+      } catch (e: any) {
+        res.status(400).send({ error: e.message });
+      }
     }
-  });
+  );
 
-  router.delete("/delete/address/:id", async (req: Request, res: Response) => {
-    try {
-      await OrderService.deleteAddress(req);
-      res.status(204).send();
-    } catch (e: any) {
-      res.status(400).send({ error: e.message });
-    }
-  });
+  router.delete(
+    "/delete/address/:id",
 
-  router.patch("/update/product", async (req: Request, res: Response) => {
-    try {
-      res.status(200).json(await ProductService.updateProduct(req.body));
-    } catch (e: any) {
-      res.status(400).json({ error: e.message });
+    async (req: Request, res: Response) => {
+      try {
+        await OrderService.deleteAddress(req);
+        res.status(204).send();
+      } catch (e: any) {
+        res.status(400).send({ error: e.message });
+      }
     }
-  });
+  );
+
+  router.patch(
+    "/update/product",
+    AdminAuth,
+    async (req: Request, res: Response) => {
+      try {
+        res.status(200).json(await ProductService.updateProduct(req.body));
+      } catch (e: any) {
+        res.status(400).json({ error: e.message });
+      }
+    }
+  );
 
   router.use((req: Request, res: Response, next: NextFunction) => {
     const error: any = new Error("not found");

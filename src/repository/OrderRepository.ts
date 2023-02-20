@@ -11,6 +11,17 @@ export class OrderRepository {
     }
   }
 
+  public static async getAddressById(id: string) {
+    try {
+      return await execute(
+        "SELECT id,address,ap,city,county,number,staircase FROM address WHERE id=?",
+        [id]
+      );
+    } catch (e: any) {
+      throw new Error("Something went wrong with server");
+    }
+  }
+
   public static async getLastOrderID() {
     try {
       return await execute(
@@ -22,20 +33,18 @@ export class OrderRepository {
     }
   }
 
-  public static async addOrder(order: Order) {
+  public static async addOrder(order: Order, id: string) {
     try {
       return await execute(
-        "INSERT INTO orders(user_id,total_cost,data,time,tips,products_cost,comment,address_id,wrapping_cost,delivery_cost,tableware) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO orders(user_id,total_cost,tips,products_cost,comment,address_id,wrapping_cost,delivery_cost,tableware) VALUES (?,?,?,?,?,?,?,?,?)",
         [
-          order.userId,
+          id,
           order.totalCost,
-          order.data,
-          order.time,
           order.tips,
-          order.productsPrice,
-          order.comment,
-          order.addresId,
-          order.wrappingCost,
+          order.productsCost,
+          order.comments,
+          order.addressID,
+          order.wrapping,
           order.deliveryCost,
           order.tableware,
         ]
@@ -60,13 +69,13 @@ export class OrderRepository {
     }
   }
 
-  public static async addAddress(address: Address) {
+  public static async addAddress(address: Address, id: string) {
     try {
       console.log("REP:", address);
       return await execute(
         "INSERT INTO address(user_id,address,county,city,number,staircase,ap) VALUES (?,?,?,?,?,?,?)",
         [
-          address.userId,
+          id,
           address.street,
           address.county,
           address.city,

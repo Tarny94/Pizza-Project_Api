@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { UserRepository } from "../repository/UserRepository";
 import { Request, Response, NextFunction } from "express";
+import { DATA_KEYS } from "../config/vars.config";
 
 export const AdminAuth = async (
   req: any,
@@ -8,8 +9,9 @@ export const AdminAuth = async (
   next: NextFunction
 ) => {
   try {
+    const privateKey: any = DATA_KEYS.myDataKeys.privateKey;
     const token = await req.header("Authorization").replace("Bearer ", "");
-    const user: any = jwt.verify(token, "mytimeisnaw");
+    const user: any = jwt.verify(token, privateKey);
 
     if (!token) {
       throw new Error("Invalid token");
@@ -24,6 +26,6 @@ export const AdminAuth = async (
     }
     next();
   } catch (e: any) {
-    res.status(401).send({ error: "Please authenticate." });
+    res.status(401).send({ error: "Please admin to authenticate." });
   }
 };
