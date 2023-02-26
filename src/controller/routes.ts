@@ -159,17 +159,13 @@ export const routes = () => {
     }
   );
 
-  router.patch(
-    "/update/product",
-    AdminAuth,
-    async (req: Request, res: Response) => {
-      try {
-        res.status(200).json(await ProductService.updateProduct(req.body));
-      } catch (e: any) {
-        res.status(400).json({ error: e.message });
-      }
+  router.patch("/update/product", async (req: Request, res: Response) => {
+    try {
+      res.status(200).json(await ProductService.updateProduct(req.body));
+    } catch (e: any) {
+      res.status(400).json({ error: e.message });
     }
-  );
+  });
 
   router.use((req: Request, res: Response, next: NextFunction) => {
     const error: any = new Error("not found");
